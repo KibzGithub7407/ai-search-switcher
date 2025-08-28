@@ -2,71 +2,381 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AI Search Engine Switcher</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    body {
+      background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+    
+    .container {
+      background-color: rgba(255, 255, 255, 0.95);
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      width: 90%;
+      max-width: 800px;
+      padding: 30px;
+      text-align: center;
+    }
+    
+    h1 {
+      color: #2d3748;
+      margin-bottom: 20px;
+      font-size: 2.5rem;
+    }
+    
+    .description {
+      color: #4a5568;
+      margin-bottom: 30px;
+      font-size: 1.1rem;
+      line-height: 1.6;
+    }
+    
+    #search-form {
+      display: flex;
+      margin-bottom: 20px;
+      position: relative;
+    }
+    
+    #search-query {
+      flex: 1;
+      padding: 18px 20px;
+      border: 2px solid #e2e8f0;
+      border-radius: 12px 0 0 12px;
+      font-size: 1.1rem;
+      transition: all 0.3s ease;
+      outline: none;
+    }
+    
+    #search-query:focus {
+      border-color: #4299e1;
+      box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.3);
+    }
+    
+    #search-form button {
+      background: #4299e1;
+      color: white;
+      border: none;
+      border-radius: 0 12px 12px 0;
+      padding: 0 25px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    
+    #search-form button:hover {
+      background: #3182ce;
+    }
+    
+    #engine-section {
+      display: none;
+      margin-top: 30px;
+      text-align: left;
+    }
+    
+    .section-title {
+      font-size: 1.4rem;
+      color: #2d3748;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    
+    .search-tip {
+      background-color: #ebf8ff;
+      border-left: 4px solid #4299e1;
+      padding: 12px 15px;
+      margin-bottom: 25px;
+      border-radius: 4px;
+      font-size: 0.95rem;
+    }
+    
+    .engine-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 15px;
+      margin-bottom: 30px;
+    }
+    
+    .engine-btn {
+      display: flex;
+      align-items: center;
+      background-color: white;
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 15px;
+      width: 100%;
+      text-align: left;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .engine-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      border-color: #4299e1;
+    }
+    
+    .engine-icon {
+      width: 40px;
+      height: 40px;
+      margin-right: 15px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 8px;
+      font-size: 20px;
+      color: white;
+    }
+    
+    .engine-info {
+      flex: 1;
+    }
+    
+    .engine-name {
+      font-weight: 600;
+      color: #2d3748;
+      margin-bottom: 4px;
+    }
+    
+    .engine-status {
+      font-size: 0.8rem;
+      color: #718096;
+    }
+    
+    .supported {
+      color: #38a169;
+    }
+    
+    .unsupported {
+      color: #e53e3e;
+    }
+    
+    .back-btn {
+      background: #718096;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 12px 20px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      margin-top: 10px;
+    }
+    
+    .back-btn i {
+      margin-right: 8px;
+    }
+    
+    .back-btn:hover {
+      background: #4a5568;
+    }
+    
+    footer {
+      margin-top: 40px;
+      color: #718096;
+      font-size: 0.9rem;
+    }
+    
+    footer a {
+      color: #4299e1;
+      text-decoration: none;
+    }
+    
+    footer a:hover {
+      text-decoration: underline;
+    }
+    
+    @media (max-width: 600px) {
+      .container {
+        padding: 20px;
+      }
+      
+      h1 {
+        font-size: 2rem;
+      }
+      
+      #search-form {
+        flex-direction: column;
+      }
+      
+      #search-query {
+        border-radius: 12px;
+        margin-bottom: 10px;
+      }
+      
+      #search-form button {
+        border-radius: 12px;
+        padding: 15px;
+      }
+      
+      .engine-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
 </head>
 <body>
   <div class="container">
     <h1>AI Search Engine Switcher</h1>
+    <p class="description">Enter your query and choose from various AI search engines. Some tools support pre-filled queries while others will require manual input.</p>
+    
     <form id="search-form">
       <input type="text" id="search-query" placeholder="Type your query..." required>
-      <button type="submit">Search</button>
+      <button type="submit">Search <i class="fas fa-search"></i></button>
     </form>
-    <div id="engine-section" style="display:none;">
-      <p>Which AI search engine do you want to use?</p>
-      <ul class="engine-list">
-        <li><button class="engine-btn" data-url="https://www.perplexity.ai/search?q=%QUERY%">Perplexity AI</button></li>
-        <li><button class="engine-btn" data-url="https://you.com/search?q=%QUERY%">You.com</button></li>
-        <li><button class="engine-btn" data-url="https://chat.openai.com/?q=%QUERY%">ChatGPT (OpenAI)</button></li>
-        <li><button class="engine-btn" data-url="https://gemini.google.com/?q=%QUERY%">Google Gemini</button></li>
-        <li><button class="engine-btn" data-url="https://bard.google.com/?q=%QUERY%">Google Bard</button></li>
-        <li><button class="engine-btn" data-url="https://copilot.microsoft.com/?q=%QUERY%">Microsoft Copilot</button></li>
-     
-  <div class="container">
-    <h1>AI Search Engine Switcher</h1>
-    <p>Choose your preferred AI search engine or explore more AI tools by category:</p>
-
-    <h2>Popular AI Chatbots & Assistants</h2>
-    <ul class="engine-list">
-      <li><a href="https://chat.openai.com/" target="_blank">ChatGPT (OpenAI)</a></li>
-      <li><a href="https://gemini.google.com/" target="_blank">Google Gemini</a></li>
-      <li><a href="https://bard.google.com/" target="_blank">Google Bard</a></li>
-      <li><a href="https://claude.ai/" target="_blank">Claude (Anthropic)</a></li>
-      <li><a href="https://copilot.microsoft.com/" target="_blank">Microsoft Copilot</a></li>
-      <li><a href="https://www.perplexity.ai/" target="_blank">Perplexity AI</a></li>
-      <li><a href="https://you.com/" target="_blank">You.com</a></li>
-    </ul>
-
-    <h2>AI Code Development Tools</h2>
-    <ul class="engine-list">
-      <li><a href="https://github.com/features/copilot" target="_blank">GitHub Copilot</a></li>
-      <li><a href="https://replit.com/site/ai" target="_blank">Replit AI</a></li>
-      <li><a href="https://tabnine.com/" target="_blank">Tabnine</a></li>
-      <li><a href="https://www.codeium.com/" target="_blank">Codeium</a></li>
-    </ul>
-
-    <h2>Free Image Creation Tools</h2>
-    <ul class="engine-list">
-      <li><a href="https://www.bing.com/images/create" target="_blank">Bing Image Creator</a></li>
-      <li><a href="https://www.craiyon.com/" target="_blank">Craiyon</a></li>
-      <li><a href="https://www.canva.com/ai-image-generator/" target="_blank">Canva AI Image Generator</a></li>
-      <li><a href="https://www.leonardo.ai/" target="_blank">Leonardo.AI</a></li>
-      <li><a href="https://www.artbreeder.com/" target="_blank">Artbreeder</a></li>
-    </ul>
-
-    <h2>Other Useful AI Tools</h2>
-    <ul class="engine-list">
-      <li><a href="https://quillbot.com/" target="_blank">QuillBot (Text Paraphrasing & Summarizing)</a></li>
-      <li><a href="https://www.jasper.ai/" target="_blank">Jasper (AI Writing)</a></li>
-      <li><a href="https://otter.ai/" target="_blank">Otter.ai (Meeting Transcription)</a></li>
-      <li><a href="https://www.descript.com/" target="_blank">Descript (AI Audio/Video Editing)</a></li>
-      <li><a href="https://www.notion.so/product/ai" target="_blank">Notion AI (Productivity Assistant)</a></li>
-    </ul>
-
+    
+    <div id="engine-section">
+      <h2 class="section-title">Select an AI Search Engine</h2>
+      
+      <div class="search-tip">
+        <i class="fas fa-info-circle"></i> Green indicators show engines that support pre-filled queries. Red indicators may require manual query input.
+      </div>
+      
+      <div class="engine-grid">
+        <button class="engine-btn" data-url="https://www.perplexity.ai/search?q=%QUERY%">
+          <div class="engine-icon" style="background-color: #9333EA;">
+            <i class="fas fa-robot"></i>
+          </div>
+          <div class="engine-info">
+            <div class="engine-name">Perplexity AI</div>
+            <div class="engine-status supported">Supports pre-filled queries</div>
+          </div>
+        </button>
+        
+        <button class="engine-btn" data-url="https://you.com/search?q=%QUERY%">
+          <div class="engine-icon" style="background-color: #000000;">
+            <i class="fas fa-comment"></i>
+          </div>
+          <div class="engine-info">
+            <div class="engine-name">You.com</div>
+            <div class="engine-status supported">Supports pre-filled queries</div>
+          </div>
+        </button>
+        
+        <button class="engine-btn" data-url="https://chat.openai.com/?q=%QUERY%">
+          <div class="engine-icon" style="background-color: #10a37f;">
+            <i class="fas fa-comments"></i>
+          </div>
+          <div class="engine-info">
+            <div class="engine-name">ChatGPT (OpenAI)</div>
+            <div class="engine-status unsupported">May ignore query parameter</div>
+          </div>
+        </button>
+        
+        <button class="engine-btn" data-url="https://gemini.google.com/?q=%QUERY%">
+          <div class="engine-icon" style="background-color: #EA4335;">
+            <i class="fas fa-brain"></i>
+          </div>
+          <div class="engine-info">
+            <div class="engine-name">Google Gemini</div>
+            <div class="engine-status supported">Supports pre-filled queries</div>
+          </div>
+        </button>
+        
+        <button class="engine-btn" data-url="https://claude.ai/search?q=%QUERY%">
+          <div class="engine-icon" style="background-color: #D4770C;">
+            <i class="fas fa-lightbulb"></i>
+          </div>
+          <div class="engine-info">
+            <div class="engine-name">Claude AI</div>
+            <div class="engine-status unsupported">May ignore query parameter</div>
+          </div>
+        </button>
+        
+        <button class="engine-btn" data-url="https://copilot.microsoft.com/?q=%QUERY%">
+          <div class="engine-icon" style="background-color: #0078D7;">
+            <i class="fas fa-wind"></i>
+          </div>
+          <div class="engine-info">
+            <div class="engine-name">Microsoft Copilot</div>
+            <div class="engine-status supported">Supports pre-filled queries</div>
+          </div>
+        </button>
+        
+        <button class="engine-btn" data-url="https://www.phind.com/search?q=%QUERY%">
+          <div class="engine-icon" style="background-color: #3B82F6;">
+            <i class="fas fa-search"></i>
+          </div>
+          <div class="engine-info">
+            <div class="engine-name">Phind</div>
+            <div class="engine-status supported">Supports pre-filled queries</div>
+          </div>
+        </button>
+        
+        <button class="engine-btn" data-url="https://www.bing.com/search?q=%QUERY%&showconv=1">
+          <div class="engine-icon" style="background-color: #008373;">
+            <i class="fab fa-microsoft"></i>
+          </div>
+          <div class="engine-info">
+            <div class="engine-name">Bing AI Chat</div>
+            <div class="engine-status supported">Supports pre-filled queries</div>
+          </div>
+        </button>
+      </div>
+      
+      <button class="back-btn" id="back-button">
+        <i class="fas fa-arrow-left"></i> Back to Query
+      </button>
+    </div>
+    
     <footer>
-      <p>Template inspired by <a href="https://kibzgithub7407.github.io/enhanced-via-ai-switcher" target="_blank">Enhanced VIA AI Switcher</a></p>
+      <p>Enhanced AI Search Engine Switcher | Inspired by <a href="https://kibzgithub7407.github.io/enhanced-via-ai-switcher" target="_blank">Enhanced VIA AI Switcher</a></p>
     </footer>
   </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const searchForm = document.getElementById('search-form');
+      const searchQuery = document.getElementById('search-query');
+      const engineSection = document.getElementById('engine-section');
+      const backButton = document.getElementById('back-button');
+      const engineButtons = document.querySelectorAll('.engine-btn');
+      
+      // Handle form submission
+      searchForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        if (searchQuery.value.trim() !== '') {
+          // Hide form and show engine selection
+          searchForm.style.display = 'none';
+          engineSection.style.display = 'block';
+        }
+      });
+      
+      // Handle back button
+      backButton.addEventListener('click', function() {
+        engineSection.style.display = 'none';
+        searchForm.style.display = 'flex';
+      });
+      
+      // Handle engine selection
+      engineButtons.forEach(button => {
+        button.addEventListener('click', function() {
+          const urlTemplate = this.getAttribute('data-url');
+          const query = encodeURIComponent(searchQuery.value.trim());
+          const url = urlTemplate.replace('%QUERY%', query);
+          
+          window.open(url, '_blank');
+        });
+      });
+    });
+  </script>
 </body>
 </html>
