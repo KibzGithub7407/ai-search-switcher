@@ -9,6 +9,22 @@
 <body>
   <div class="container">
     <h1>AI Search Engine Switcher</h1>
+    <form id="search-form">
+      <input type="text" id="search-query" placeholder="Type your query..." required>
+      <button type="submit">Search</button>
+    </form>
+    <div id="engine-section" style="display:none;">
+      <p>Which AI search engine do you want to use?</p>
+      <ul class="engine-list">
+        <li><button class="engine-btn" data-url="https://www.perplexity.ai/search?q=%QUERY%">Perplexity AI</button></li>
+        <li><button class="engine-btn" data-url="https://you.com/search?q=%QUERY%">You.com</button></li>
+        <li><button class="engine-btn" data-url="https://chat.openai.com/?q=%QUERY%">ChatGPT (OpenAI)</button></li>
+        <li><button class="engine-btn" data-url="https://gemini.google.com/?q=%QUERY%">Google Gemini</button></li>
+        <li><button class="engine-btn" data-url="https://bard.google.com/?q=%QUERY%">Google Bard</button></li>
+        <li><button class="engine-btn" data-url="https://copilot.microsoft.com/?q=%QUERY%">Microsoft Copilot</button></li>
+     
+  <div class="container">
+    <h1>AI Search Engine Switcher</h1>
     <p>Choose your preferred AI search engine or explore more AI tools by category:</p>
 
     <h2>Popular AI Chatbots & Assistants</h2>
